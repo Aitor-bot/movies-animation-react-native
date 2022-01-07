@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { FlatList } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import {AppLoading} from 'expo';
+import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import styled from 'styled-components';
-//import Rating from './components/Rating'
+import Rating from './components/Rating'
 import Genre from './components/Genre'
 import {getMovies} from './api'
 import * as CONSTANTS from './constants/contants'

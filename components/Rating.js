@@ -9,7 +9,7 @@ const Container = styled.View`
     justify-content: center;
 
 `
-export default function Rating({rating}){
+export default function Rating ({rating}){
     const totalOfFullStars = Math.floor(rating / 2)
     const starOutLineArray = Array(5 - totalOfFullStars).fill('star-outline')
     const fullStarsArray = Array(totalOfFullStars).fill('star')
