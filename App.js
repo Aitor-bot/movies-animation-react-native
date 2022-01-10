@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { FlatList, Animated, View, Image } from 'react-native';
+import { FlatList, Animated, View, Image, Button, Linking} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
@@ -53,11 +53,13 @@ const BackdropContainer = styled.View`
   position: absolute;
   height: ${CONSTANTS.BACKDROP_HEIGHT}px;
   overflow: hidden;
+  
 `
 const BackdropImage = styled.Image`
   position: absolute;
   width: ${CONSTANTS.WIDTH}px;
   height: ${CONSTANTS.BACKDROP_HEIGHT}px;
+  
   `
 const ContentContainer = styled.View `
   position: absolute;
@@ -86,6 +88,9 @@ if(!loaded || !fontLoaded) {
   return <AppLoading />
 }
 
+const learnMore = () => { 
+  Linking.openURL("https://es.wikipedia.org/wiki/Wikipedia:Portada")
+}
 const Backdrop = ({movies, scrollX}) => {
   return(
     <ContentContainer>
@@ -163,8 +168,16 @@ return (
             <PosterImage source={{ uri: item.posterPath}} />
             <PosterTitle numberOfLines={1}>{item.originalTitle}</PosterTitle>
             <Rating rating={item.voteAverage} />
-            <Genre genres={item.genres} />
-            <PosterDescription numberOfLines={5}>{item.description}</PosterDescription>
+            <Genre genres={item.genres} 
+            style={{marginBottom:'5%'}}/>
+            <PosterDescription>
+              <Button
+                onPress={learnMore}
+                title="Learn More"
+                color="#841584"
+                marginTop="20"
+              />
+            </PosterDescription>
           </Poster>
         </PosterContainer>
       )

@@ -17,7 +17,7 @@ export default function Rating({rating}){
     return (
         <Container>
             {ratingStars.map((icon, index) => {
-                return <MaterialCommunityIcons key={index} name={icon} size={16} color="gray" />;
+                return <MaterialCommunityIcons key={index} name={icon} size={16} color="white" />;
             })}
         </Container>
     )
