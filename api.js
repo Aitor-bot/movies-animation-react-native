@@ -21,7 +21,7 @@ export const getMovies = async () => {
                 originalTitle: original_title,
                 posterPath: `https://image.tmdb.org/t/p/w500${poster_path}`,
                 backdropPath: `https://image.tmdb.org/t/p/w500${backdrop_path}`,
-                vote_average: vote_average,
+                voteAverage: vote_average,
                 description: overview,
                 releaseDate: release_date,
                 genres: genre_ids.map(id => GENRES[id])

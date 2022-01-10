@@ -3,13 +3,13 @@ import { FlatList } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import Rating from './components/Rating'
 import Genre from './components/Genre'
 import {getMovies} from './api'
 import * as CONSTANTS from './constants/contants'
 
-const Container = styled.View `
+const Container = styled.View`
   flex: 1;
 `
 const PosterContainer = styled.View`
@@ -24,7 +24,7 @@ const Poster = styled.View`
 `
 const PosterImage = styled.Image`
   width: 100%;
-  height; ${CONSTANTS.ITEM_SIZE * 1.2}px;
+  height: ${CONSTANTS.ITEM_SIZE * 1.2}px;
   resize-mode: cover;
   border-radius: 10px;
   margin: 0 0 10px 0;
@@ -72,7 +72,7 @@ return (
       return (
         <PosterContainer>
           <Poster>
-            <PosterImage source={{ uri: item.posrtPath}} />
+            <PosterImage source={{ uri: item.posterPath}} />
             <PosterTitle numberOfLines={1}>{item.originalTitle}</PosterTitle>
             <Rating rating={item.voteAverage} />
             <Genre genres={item.genres} />
