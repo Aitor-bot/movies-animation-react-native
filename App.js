@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { FlatList } from 'react-native';
+import React, {useState, useEffect, useRef} from 'react'
+import { Animated } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
@@ -8,6 +8,7 @@ import Rating from './components/Rating'
 import Genre from './components/Genre'
 import {getMovies} from './api'
 import * as CONSTANTS from './constants/contants'
+
 
 const Container = styled.View`
   flex: 1;
@@ -44,6 +45,7 @@ const [loaded, setLoaded] = useState(false)
 let [fontLoaded] = useFonts({
   'Syne-Mono': require('./assets/fonts/SyneMono-Regular.ttf')
 })
+const scrollX = useRef(new Animated.Value(0)).current
 useEffect(() => {
   const fetchdata = async () => {
     const data = await getMovies()
@@ -60,7 +62,14 @@ if(!loaded || !fontLoaded) {
 return (
   <Container>
     <StatusBar />
-    <FlatList
+    <Animated.FlatList
+    onScroll={Animated.event(
+      [{nativeEvent: {contentOffset: {x: scrollX}}}],
+      {useNativeDriver: true}
+    )}
+    scrollEventThrottle={16}
+    snapToInterval={CONSTANTS.ITEM_SIZE}
+    decelerationRate={0}
     showsHorizontalScrollIndicator={false}
     data={movies}
     keyExtractor={item => item.key}
@@ -68,10 +77,19 @@ return (
     contentContainerStyle={{
       alignItems: 'center'
     }}
-    renderItem={({item}) => {
+    renderItem={({item, index}) => {
+      const inputRange = [
+        (index -1) * CONSTANTS.ITEM_SIZE,
+        index * CONSTANTS.ITEM_SIZE,
+        (index + 1) * CONSTANTS.ITEM_SIZE
+      ]
+      const translateY = scrollX.interpolate({
+        inputRange,
+        outputRange: [0, -50, 0]
+      })
       return (
         <PosterContainer>
-          <Poster>
+          <Poster as ={Animated.View} style={{transform: [{translateY}]}}>
             <PosterImage source={{ uri: item.posterPath}} />
             <PosterTitle numberOfLines={1}>{item.originalTitle}</PosterTitle>
             <Rating rating={item.voteAverage} />
