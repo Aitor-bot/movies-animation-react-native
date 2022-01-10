@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import Rating from './components/Rating'
 import Genre from './components/Genre'
 import {getMovies} from './api'
-import * as CONSTANTS from './constants/contants'
+import * as CONSTANTS from './constants/constants'
 
 
 const Container = styled.View`
@@ -38,6 +38,10 @@ const PosterDescription = styled.Text`
   font-family: Syne-Mono;
   font-size: 12px;
 `
+const DummyContainer = styled.View`
+    width: ${CONSTANTS.SPACER_ITEM_SIZE}px;
+`
+
 export default function App() {
   
 const [movies, setMovies] = useState([])
@@ -49,7 +53,7 @@ const scrollX = useRef(new Animated.Value(0)).current
 useEffect(() => {
   const fetchdata = async () => {
     const data = await getMovies()
-    setMovies(data)
+    setMovies([{key: 'left-spacer'}, ...data, {key: 'right-spacer'}])
     setLoaded(true)
   }
   fetchdata()
@@ -78,10 +82,13 @@ return (
       alignItems: 'center'
     }}
     renderItem={({item, index}) => {
+      if(!item.originalTitle){
+        return <DummyContainer />
+      }
       const inputRange = [
+        (index -2) * CONSTANTS.ITEM_SIZE,
         (index -1) * CONSTANTS.ITEM_SIZE,
         index * CONSTANTS.ITEM_SIZE,
-        (index + 1) * CONSTANTS.ITEM_SIZE
       ]
       const translateY = scrollX.interpolate({
         inputRange,
